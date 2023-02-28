@@ -1,11 +1,11 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import { knowledgesRouter } from './routers/knowledges.router.js';
 
-// TEMPORAL:
-// import createDebug from 'debug';
-// const debug = createDebug('W7CH2:app');
+import createDebug from 'debug';
+import { CustomError } from './errors/errors.js';
+const debug = createDebug('W7CH2:app');
 
 export const app = express();
 
@@ -28,6 +28,25 @@ app.get('/', (_req, resp) => {
     },
   });
 });
+
+app.use(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  (error: CustomError, _req: Request, resp: Response, next: NextFunction) => {
+    const status = error.statusCode || 500;
+    const statusMessage = error.statusMessage || 'Internal server error';
+
+    resp.status(status);
+    resp.json({
+      error: [
+        {
+          status,
+          statusMessage,
+        },
+      ],
+    });
+    debug(status, statusMessage, error.message);
+  }
+);
 
 app.use('*', (_req, resp, next) => {
   resp

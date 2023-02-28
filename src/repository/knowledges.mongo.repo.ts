@@ -1,7 +1,8 @@
 import { KnowledgeStructure } from '../entities/knowledge.model';
 import { Repo } from './repo.interface';
 import createDebug from 'debug';
-import { KnowledgeModel } from './knowledges.mongo.model';
+import { KnowledgeModel } from './knowledges.mongo.model.js';
+import { HTTPError } from '../errors/errors.js';
 
 const debug = createDebug('W7CH2:repo');
 
@@ -22,7 +23,7 @@ export class KnowledgesFileRepo implements Repo<KnowledgeStructure> {
 
     const data = await KnowledgeModel.findById(id);
 
-    if (!data) throw new Error('Not found');
+    if (!data) throw new HTTPError(404, 'Not found', 'ID not found in queryID');
 
     return data;
   }
@@ -50,7 +51,7 @@ export class KnowledgesFileRepo implements Repo<KnowledgeStructure> {
       }
     );
 
-    if (!data) throw new Error('Not found');
+    if (!data) throw new HTTPError(404, 'Not found', 'ID not found in update');
 
     return data;
   }
@@ -60,6 +61,11 @@ export class KnowledgesFileRepo implements Repo<KnowledgeStructure> {
 
     const data = await KnowledgeModel.findByIdAndDelete(id);
 
-    if (!data) throw new Error('Not found');
+    if (!data)
+      throw new HTTPError(
+        404,
+        'Not found',
+        'Delete not possible: ID not found '
+      );
   }
 }
