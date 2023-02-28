@@ -1,4 +1,4 @@
-import { KnowledgesFileRepo } from '../repository/knowledges.file.repo';
+import { KnowledgesFileRepo } from '../repository/knowledges.mongo.repo';
 import { KnowledgesController } from './knowledges.controller';
 import { NextFunction, Request, Response } from 'express';
 

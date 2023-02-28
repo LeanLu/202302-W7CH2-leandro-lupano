@@ -1,6 +1,6 @@
 import { Router as router } from 'express';
 import { KnowledgesController } from '../controllers/knowledges.controller.js';
-import { KnowledgesFileRepo } from '../repository/knowledges.file.repo.js';
+import { KnowledgesFileRepo } from '../repository/knowledges.mongo.repo.js';
 
 export const knowledgesRouter = router();
 

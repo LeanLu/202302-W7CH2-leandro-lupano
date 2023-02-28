@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import { KnowledgeStructure } from '../entities/knowledge.model';
-import { KnowledgesFileRepo } from './knowledges.file.repo';
+import { KnowledgesFileRepo } from './knowledges.mongo.repo';
 jest.mock('fs/promises');
 
 describe('Given KnowledgesFileRepo repository', () => {
