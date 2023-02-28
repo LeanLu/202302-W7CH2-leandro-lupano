@@ -50,6 +50,11 @@ describe('Given KnowledgesMongoRepo repository', () => {
       expect(KnowledgeModel.create).toHaveBeenCalled();
       expect(result).toEqual({ name: 'test' });
     });
+
+    test('Then if the create method resolve value to undefined, it should throw an Error', async () => {
+      (KnowledgeModel.create as jest.Mock).mockResolvedValue(undefined);
+      expect(async () => repo.create({ name: 'test' })).rejects.toThrow();
+    });
   });
 
   describe('When the update method is used', () => {
