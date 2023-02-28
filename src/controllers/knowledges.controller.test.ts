@@ -1,9 +1,9 @@
-import { KnowledgesFileRepo } from '../repository/knowledges.file.repo';
+import { KnowledgesMongoRepo } from '../repository/knowledges.mongo.repo';
 import { KnowledgesController } from './knowledges.controller';
 import { NextFunction, Request, Response } from 'express';
 
 describe('Given the KnowledgesController', () => {
-  const repo: KnowledgesFileRepo = {
+  const repo: KnowledgesMongoRepo = {
     query: jest.fn(),
     queryId: jest.fn(),
     create: jest.fn(),

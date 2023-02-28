@@ -1,19 +1,109 @@
-[
-  { "id": "1", "name": "Javascript" },
-  { "id": "2", "name": "Typescript" },
-  { "id": "3", "name": "HTML" },
-  { "id": "4", "name": "CSS" },
-  { "id": "5", "name": "Sass" },
-  { "id": "6", "name": "React" },
-  { "id": "7", "name": "Flux" },
-  { "id": "8", "name": "Redux" },
-  { "id": "9", "name": "Node" },
-  { "id": "10", "name": "Git" },
-  { "id": "11", "name": "GitHub" },
-  { "id": "12", "name": "Testing-Jest" },
-  { "id": "13", "name": "Node-Express" },
-  { "id": "14", "name": "TEST-1" },
-  { "id": "15", "name": "TEST-1" },
-  { "id": "16", "name": "test PATCH" },
-  { "name": "test PATCH", "id": "17" }
-]
+{
+  "results": [
+    {
+      "_id": "63fe4633c1469e4f56cc4e28",
+      "name": "Javascript",
+      "interestingScore": 9,
+      "difficultyLevel": 3,
+      "__v": 0
+    },
+    {
+      "_id": "63fe4649c1469e4f56cc4e2a",
+      "name": "Typescript",
+      "interestingScore": 8,
+      "difficultyLevel": 4,
+      "__v": 0
+    },
+    {
+      "_id": "63fe4655c1469e4f56cc4e2c",
+      "name": "HTML",
+      "interestingScore": 6,
+      "difficultyLevel": 2,
+      "__v": 0
+    },
+    {
+      "_id": "63fe4663c1469e4f56cc4e2e",
+      "name": "CSS",
+      "interestingScore": 4,
+      "difficultyLevel": 2,
+      "__v": 0
+    },
+    {
+      "_id": "63fe466ec1469e4f56cc4e30",
+      "name": "Sass",
+      "interestingScore": 4,
+      "difficultyLevel": 1,
+      "__v": 0
+    },
+    {
+      "_id": "63fe467ec1469e4f56cc4e32",
+      "name": "React",
+      "interestingScore": 9,
+      "difficultyLevel": 4,
+      "__v": 0
+    },
+    {
+      "_id": "63fe468cc1469e4f56cc4e34",
+      "name": "Flux",
+      "interestingScore": 8,
+      "difficultyLevel": 5,
+      "__v": 0
+    },
+    {
+      "_id": "63fe4694c1469e4f56cc4e36",
+      "name": "Redux",
+      "interestingScore": 10,
+      "difficultyLevel": 5,
+      "__v": 0
+    },
+    {
+      "_id": "63fe469ec1469e4f56cc4e38",
+      "name": "Node",
+      "interestingScore": 7,
+      "difficultyLevel": 4,
+      "__v": 0
+    },
+    {
+      "_id": "63fe46a8c1469e4f56cc4e3a",
+      "name": "Git",
+      "interestingScore": 5,
+      "difficultyLevel": 2,
+      "__v": 0
+    },
+    {
+      "_id": "63fe46b1c1469e4f56cc4e3c",
+      "name": "GitHub",
+      "interestingScore": 5,
+      "difficultyLevel": 1,
+      "__v": 0
+    },
+    {
+      "_id": "63fe46e1c1469e4f56cc4e3f",
+      "name": "Testing-Jest",
+      "interestingScore": 3,
+      "difficultyLevel": 4,
+      "__v": 0
+    },
+    {
+      "_id": "63fe46eec1469e4f56cc4e41",
+      "name": "Node-Express",
+      "interestingScore": 5,
+      "difficultyLevel": 3,
+      "__v": 0
+    },
+    {
+      "_id": "63fe46f8c1469e4f56cc4e43",
+      "name": "MongoDB",
+      "interestingScore": 6,
+      "difficultyLevel": 3,
+      "__v": 0
+    },
+    {
+      "_id": "63fe4703c1469e4f56cc4e45",
+      "name": "Mongoose",
+      "interestingScore": 5,
+      "difficultyLevel": 3,
+      "__v": 0
+    }
+  ]
+}
