@@ -1,10 +1,10 @@
 import { Router as router } from 'express';
 import { KnowledgesController } from '../controllers/knowledges.controller.js';
-import { KnowledgesFileRepo } from '../repository/knowledges.mongo.repo.js';
+import { KnowledgesMongoRepo } from '../repository/knowledges.mongo.repo.js';
 
 export const knowledgesRouter = router();
 
-const repo = new KnowledgesFileRepo();
+const repo = new KnowledgesMongoRepo();
 
 const controller = new KnowledgesController(repo);
 

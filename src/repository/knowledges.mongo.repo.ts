@@ -6,7 +6,7 @@ import { HTTPError } from '../errors/errors.js';
 
 const debug = createDebug('W7CH2:repo');
 
-export class KnowledgesFileRepo implements Repo<KnowledgeStructure> {
+export class KnowledgesMongoRepo implements Repo<KnowledgeStructure> {
   constructor() {
     debug('Repo instanced');
   }
