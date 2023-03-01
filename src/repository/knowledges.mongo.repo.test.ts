@@ -36,7 +36,7 @@ describe('Given KnowledgesMongoRepo repository', () => {
       expect(result).toEqual({ id: '1' });
     });
 
-    test('Then if the findById method resolve value to undefined, it should throw an Error', async () => {
+    test('Then if the findById method resolve value to null, it should throw an Error', async () => {
       (KnowledgeModel.findById as jest.Mock).mockResolvedValue(null);
       expect(async () => repo.queryId('')).rejects.toThrow();
     });
@@ -68,7 +68,7 @@ describe('Given KnowledgesMongoRepo repository', () => {
       expect(result).toEqual({ name: 'test', id: '1' });
     });
 
-    test('Then if the findByIdAndUpdate method resolve value to undefined, it should throw an Error', async () => {
+    test('Then if the findByIdAndUpdate method resolve value to null, it should throw an Error', async () => {
       (KnowledgeModel.findByIdAndUpdate as jest.Mock).mockResolvedValue(null);
       expect(async () => repo.update(mockKnowledge)).rejects.toThrow();
     });
@@ -84,9 +84,17 @@ describe('Given KnowledgesMongoRepo repository', () => {
       expect(KnowledgeModel.findByIdAndDelete).toHaveBeenCalled();
     });
 
-    test('Then if the findByIdAndDelete method resolve value to undefined, it should throw an Error', async () => {
+    test('Then if the findByIdAndDelete method resolve value to null, it should throw an Error', async () => {
       (KnowledgeModel.findByIdAndDelete as jest.Mock).mockResolvedValue(null);
       expect(async () => repo.destroy('')).rejects.toThrow();
+    });
+  });
+
+  describe('When the search method is used', () => {
+    test('Then if it has an mock query object, it should return an empty array', async () => {
+      const mockQuery = { key: 'test', value: 'test' };
+      const result = await repo.search(mockQuery);
+      expect(result).toEqual([]);
     });
   });
 });
