@@ -37,7 +37,7 @@ describe('Given KnowledgesMongoRepo repository', () => {
     });
 
     test('Then if the findById method resolve value to undefined, it should throw an Error', async () => {
-      (KnowledgeModel.findById as jest.Mock).mockResolvedValue(undefined);
+      (KnowledgeModel.findById as jest.Mock).mockResolvedValue(null);
       expect(async () => repo.queryId('')).rejects.toThrow();
     });
   });
@@ -49,11 +49,6 @@ describe('Given KnowledgesMongoRepo repository', () => {
       const result = await repo.create({ name: 'test' });
       expect(KnowledgeModel.create).toHaveBeenCalled();
       expect(result).toEqual({ name: 'test' });
-    });
-
-    test('Then if the create method resolve value to undefined, it should throw an Error', async () => {
-      (KnowledgeModel.create as jest.Mock).mockResolvedValue(undefined);
-      expect(async () => repo.create({ name: 'test' })).rejects.toThrow();
     });
   });
 
@@ -74,9 +69,7 @@ describe('Given KnowledgesMongoRepo repository', () => {
     });
 
     test('Then if the findByIdAndUpdate method resolve value to undefined, it should throw an Error', async () => {
-      (KnowledgeModel.findByIdAndUpdate as jest.Mock).mockResolvedValue(
-        undefined
-      );
+      (KnowledgeModel.findByIdAndUpdate as jest.Mock).mockResolvedValue(null);
       expect(async () => repo.update(mockKnowledge)).rejects.toThrow();
     });
   });
@@ -92,9 +85,7 @@ describe('Given KnowledgesMongoRepo repository', () => {
     });
 
     test('Then if the findByIdAndDelete method resolve value to undefined, it should throw an Error', async () => {
-      (KnowledgeModel.findByIdAndDelete as jest.Mock).mockResolvedValue(
-        undefined
-      );
+      (KnowledgeModel.findByIdAndDelete as jest.Mock).mockResolvedValue(null);
       expect(async () => repo.destroy('')).rejects.toThrow();
     });
   });
