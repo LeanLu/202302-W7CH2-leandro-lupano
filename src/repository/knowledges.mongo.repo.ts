@@ -15,6 +15,7 @@ export class KnowledgesMongoRepo implements Repo<KnowledgeStructure> {
     debug('query method');
 
     const data = await KnowledgeModel.find();
+
     return data;
   }
 
@@ -34,9 +35,6 @@ export class KnowledgesMongoRepo implements Repo<KnowledgeStructure> {
     debug('create method');
 
     const data = await KnowledgeModel.create(knowledge);
-
-    if (!data)
-      throw new HTTPError(404, 'Not found', 'The element could not be created');
 
     return data;
   }
