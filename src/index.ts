@@ -19,5 +19,5 @@ server.on('error', (error) => {
 });
 
 server.on('listening', () => {
-  debug('Listening http://localhost:' + PORT + '/knowledges/');
+  debug('Listening http://localhost:' + PORT);
 });
