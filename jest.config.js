@@ -11,5 +11,7 @@ export default {
     'routers',
     'config.ts',
     'db',
+    'helpers',
+    'errors',
   ],
 };

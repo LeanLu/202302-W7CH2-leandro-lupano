@@ -2,9 +2,10 @@ import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import { knowledgesRouter } from './routers/knowledges.router.js';
-
+import { usersRouter } from './routers/users.router.js';
 import createDebug from 'debug';
 import { CustomError } from './errors/errors.js';
+
 const debug = createDebug('W7CH2:app');
 
 export const app = express();
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 
 app.use('/knowledges', knowledgesRouter);
+app.use('/users', usersRouter);
 
 app.get('/', (_req, resp) => {
   resp.json({

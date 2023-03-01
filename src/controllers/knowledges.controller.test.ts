@@ -9,6 +9,7 @@ describe('Given the KnowledgesController', () => {
     create: jest.fn(),
     update: jest.fn(),
     destroy: jest.fn(),
+    search: jest.fn(),
   };
 
   const req = {

@@ -4,11 +4,11 @@ import createDebug from 'debug';
 import { KnowledgeModel } from './knowledges.mongo.model.js';
 import { HTTPError } from '../errors/errors.js';
 
-const debug = createDebug('W7CH2:repo');
+const debug = createDebug('W7CH2:knowledges-repo');
 
 export class KnowledgesMongoRepo implements Repo<KnowledgeStructure> {
   constructor() {
-    debug('Repo instanced');
+    debug('Knowledges-Repo instanced');
   }
 
   async query(): Promise<KnowledgeStructure[]> {
@@ -68,5 +68,12 @@ export class KnowledgesMongoRepo implements Repo<KnowledgeStructure> {
         'Not found',
         'Delete not possible: ID not found '
       );
+  }
+
+  async search(_query: {
+    key: string;
+    value: unknown;
+  }): Promise<KnowledgeStructure[]> {
+    return [];
   }
 }
