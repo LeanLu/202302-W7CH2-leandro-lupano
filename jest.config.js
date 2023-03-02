@@ -9,9 +9,8 @@ export default {
     'index.ts',
     'app.ts',
     'routers',
-    'config.ts',
     'db',
     'helpers',
-    'errors',
+    'users.mongo.model.ts',
   ],
 };
