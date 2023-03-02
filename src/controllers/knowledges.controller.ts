@@ -51,6 +51,9 @@ export class KnowledgesController {
     try {
       debug('post method');
 
+      // eslint-disable-next-line no-debugger
+      debugger;
+
       const userId = req.info?.id;
 
       if (!userId) throw new HTTPError(404, 'Not found', 'Not found user ID');
