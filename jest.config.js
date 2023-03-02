@@ -10,7 +10,7 @@ export default {
     'app.ts',
     'routers',
     'db',
-    'helpers',
     'users.mongo.model.ts',
+    'knowledges.mongo.model.ts',
   ],
 };
