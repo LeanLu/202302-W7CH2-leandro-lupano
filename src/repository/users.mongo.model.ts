@@ -12,6 +12,13 @@ const userSchema = new Schema<UserStructure>({
     type: String,
     required: true,
   },
+
+  knowledges: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Knowledge',
+    },
+  ],
 });
 
 userSchema.set('toJSON', {

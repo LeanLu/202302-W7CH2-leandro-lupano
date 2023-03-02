@@ -14,30 +14,39 @@ describe('Given KnowledgesMongoRepo repository', () => {
   });
 
   describe('When the query method is used', () => {
-    beforeEach(async () => {
-      (KnowledgeModel.find as jest.Mock).mockResolvedValue([]);
-    });
+    test('Then it should return the mock data', async () => {
+      const mockData = [{ name: 'test' }];
 
-    test('Then the find method have been called', () => {
-      repo.query();
-      expect(KnowledgeModel.find).toHaveBeenCalled();
-    });
-    test('Then the repo.query should return the mock value', async () => {
+      (KnowledgeModel.find as jest.Mock).mockImplementation(() => ({
+        populate: jest.fn().mockReturnValue(mockData),
+      }));
+
       const result = await repo.query();
-      expect(result).toEqual([]);
+
+      expect(KnowledgeModel.find).toHaveBeenCalled();
+      expect(result).toEqual(mockData);
     });
   });
 
   describe('When the queryId method is used', () => {
-    test('Then if the findById method resolve value to an object, it should return the object', async () => {
-      (KnowledgeModel.findById as jest.Mock).mockResolvedValue({ id: '1' });
+    test('Then if there is an existing data, it should return the mock value', async () => {
+      const mockData = { name: 'test' };
+
+      (KnowledgeModel.findById as jest.Mock).mockImplementation(() => ({
+        populate: jest.fn().mockReturnValue(mockData),
+      }));
+
       const result = await repo.queryId('1');
+
       expect(KnowledgeModel.findById).toHaveBeenCalled();
-      expect(result).toEqual({ id: '1' });
+      expect(result).toEqual(mockData);
     });
 
-    test('Then if the findById method resolve value to null, it should throw an Error', async () => {
-      (KnowledgeModel.findById as jest.Mock).mockResolvedValue(null);
+    test('Then if there is an existing data, it should return the mock value', async () => {
+      (KnowledgeModel.findById as jest.Mock).mockImplementation(() => ({
+        populate: jest.fn().mockReturnValue(null),
+      }));
+
       expect(async () => repo.queryId('')).rejects.toThrow();
     });
   });
