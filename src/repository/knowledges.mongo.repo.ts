@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { KnowledgeStructure } from '../entities/knowledge.model';
 import { Repo } from './repo.interface';
 import createDebug from 'debug';
@@ -14,7 +15,7 @@ export class KnowledgesMongoRepo implements Repo<KnowledgeStructure> {
   async query(): Promise<KnowledgeStructure[]> {
     debug('query method');
 
-    const data = await KnowledgeModel.find();
+    const data = await KnowledgeModel.find().populate('owner', { things: 0 });
 
     return data;
   }
@@ -22,7 +23,9 @@ export class KnowledgesMongoRepo implements Repo<KnowledgeStructure> {
   async queryId(id: string): Promise<KnowledgeStructure> {
     debug('queryID method');
 
-    const data = await KnowledgeModel.findById(id);
+    const data = await KnowledgeModel.findById(id).populate('owner', {
+      things: 0,
+    });
 
     if (!data) throw new HTTPError(404, 'Not found', 'ID not found in queryID');
 

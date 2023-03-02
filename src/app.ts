@@ -19,8 +19,8 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(cors(corsOptions));
 
-app.use('/knowledges', knowledgesRouter);
 app.use('/users', usersRouter);
+app.use('/knowledges', knowledgesRouter);
 
 app.get('/', (_req, resp) => {
   resp.json({

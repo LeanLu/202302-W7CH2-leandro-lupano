@@ -2,12 +2,19 @@ import { Request, Response, NextFunction } from 'express';
 import { KnowledgeStructure } from '../entities/knowledge.model.js';
 import { Repo } from '../repository/repo.interface.js';
 import createDebug from 'debug';
+import { UserStructure } from '../entities/user.model.js';
+import { HTTPError } from '../errors/errors.js';
+import { RequestPlus } from '../interceptors/logged';
 
 const debug = createDebug('W7CH2:controller');
 
 export class KnowledgesController {
-  constructor(public repo: Repo<KnowledgeStructure>) {
+  constructor(
+    public repo: Repo<KnowledgeStructure>,
+    public repoUser: Repo<UserStructure>
+  ) {
     this.repo = repo;
+    this.repoUser = repoUser;
     debug('Controller instanced');
   }
 
@@ -40,13 +47,25 @@ export class KnowledgesController {
     }
   }
 
-  async post(req: Request, resp: Response, next: NextFunction) {
+  async post(req: RequestPlus, resp: Response, next: NextFunction) {
     try {
       debug('post method');
+
+      const userId = req.info?.id;
+
+      if (!userId) throw new HTTPError(404, 'Not found', 'Not found user ID');
+
+      const actualUser = await this.repoUser.queryId(userId);
+
+      req.body.owner = userId;
 
       const newKnowledge = req.body;
 
       const data = await this.repo.create(newKnowledge);
+
+      actualUser.knowledges.push(data);
+
+      this.repoUser.update(actualUser);
 
       resp.json({
         results: [data],

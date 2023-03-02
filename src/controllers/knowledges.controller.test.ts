@@ -1,6 +1,7 @@
 import { KnowledgesMongoRepo } from '../repository/knowledges.mongo.repo';
 import { KnowledgesController } from './knowledges.controller';
 import { NextFunction, Request, Response } from 'express';
+import { UsersMongoRepo } from '../repository/users.mongo.repo';
 
 describe('Given the KnowledgesController', () => {
   const repo: KnowledgesMongoRepo = {
@@ -23,7 +24,9 @@ describe('Given the KnowledgesController', () => {
   } as unknown as Response;
   const next = jest.fn() as unknown as NextFunction;
 
-  const controller = new KnowledgesController(repo);
+  const mockUserRepo = {} as unknown as UsersMongoRepo;
+
+  const controller = new KnowledgesController(repo, mockUserRepo);
 
   describe('When getAll method is called', () => {
     test('Then if there is NO error from the repo', async () => {

@@ -22,6 +22,8 @@ export class UsersController {
 
       req.body.password = await Auth.hash(req.body.password);
 
+      req.body.knowledges = [];
+
       const data = await this.repo.create(req.body);
 
       resp.status(201);
@@ -52,6 +54,7 @@ export class UsersController {
         throw new HTTPError(401, 'Unauthorized', 'Password not match');
 
       const payload: TokenPayload = {
+        id: data[0].id,
         email: data[0].email,
         role: 'Admin',
       };

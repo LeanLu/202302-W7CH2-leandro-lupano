@@ -21,6 +21,19 @@ const knowledgeSchema = new Schema<KnowledgeStructure>({
     min: 1,
     max: 5,
   },
+
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
+});
+
+knowledgeSchema.set('toJSON', {
+  transform(_document, returnedObject) {
+    returnedObject.id = returnedObject._id;
+    delete returnedObject.__v;
+    delete returnedObject._id;
+  },
 });
 
 export const KnowledgeModel = model('Knowledge', knowledgeSchema, 'knowledges');
