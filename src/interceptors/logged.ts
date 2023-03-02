@@ -7,9 +7,13 @@ export interface RequestPlus extends Request {
   info?: TokenPayload;
 }
 
-export function logged(req: RequestPlus, _resp: Response, next: NextFunction) {
+export async function logged(
+  req: RequestPlus,
+  _resp: Response,
+  next: NextFunction
+) {
   try {
-    const authHeader = req.get('Authorization');
+    const authHeader = await req.get('Authorization');
 
     if (!authHeader)
       throw new HTTPError(498, 'Invalid Token', 'Not value in auth header');
