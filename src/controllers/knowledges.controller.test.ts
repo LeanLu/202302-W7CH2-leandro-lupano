@@ -3,6 +3,13 @@ import { KnowledgesController } from './knowledges.controller';
 import { NextFunction, Request, Response } from 'express';
 import { UsersMongoRepo } from '../repository/users.mongo.repo';
 
+jest.mock('../config.js', () => ({
+  _dirname: 'test',
+  config: {
+    secret: 'test',
+  },
+}));
+
 describe('Given the KnowledgesController', () => {
   const repo: KnowledgesMongoRepo = {
     query: jest.fn(),

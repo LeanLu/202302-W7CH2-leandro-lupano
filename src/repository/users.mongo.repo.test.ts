@@ -4,6 +4,13 @@ import { UsersMongoRepo } from './users.mongo.repo';
 
 jest.mock('./users.mongo.model.js');
 
+jest.mock('../config.js', () => ({
+  _dirname: 'test',
+  config: {
+    secret: 'test',
+  },
+}));
+
 describe('Given UsersMongoRepo repository', () => {
   const repo = UsersMongoRepo.getInstance();
 
