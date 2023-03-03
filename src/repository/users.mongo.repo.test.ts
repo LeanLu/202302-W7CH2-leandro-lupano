@@ -15,28 +15,40 @@ describe('Given UsersMongoRepo repository', () => {
 
   describe('When the query method is used', () => {
     test('Then it should return an empty array', async () => {
+      (UserModel.find as jest.Mock).mockImplementation(() => ({
+        populate: jest.fn().mockReturnValue([{ id: '1' }, { id: '2' }]),
+      }));
+
       const result = await repo.query();
-      expect(result).toEqual([]);
+      expect(result).toEqual([{ id: '1' }, { id: '2' }]);
     });
   });
 
   describe('When the queryId method is used', () => {
     test('Then if the findById method resolve value to an object, it should return the object', async () => {
-      (UserModel.findById as jest.Mock).mockResolvedValue({ id: '1' });
+      (UserModel.findById as jest.Mock).mockImplementation(() => ({
+        populate: jest.fn().mockResolvedValue({ id: '1' }),
+      }));
+
       const result = await repo.queryId('1');
       expect(UserModel.findById).toHaveBeenCalled();
       expect(result).toEqual({ id: '1' });
     });
 
     test('Then if the findById method resolve value to null, it should throw an Error', async () => {
-      (UserModel.findById as jest.Mock).mockResolvedValue(null);
+      (UserModel.findById as jest.Mock).mockImplementation(() => ({
+        populate: jest.fn().mockResolvedValue(null),
+      }));
       expect(async () => repo.queryId('')).rejects.toThrow();
     });
   });
 
   describe('When the search method is used', () => {
     test('Then if it has an mock query object, it should return find resolved value', async () => {
-      (UserModel.find as jest.Mock).mockResolvedValue([{ id: '1' }]);
+      (UserModel.find as jest.Mock).mockImplementation(() => ({
+        populate: jest.fn().mockResolvedValue([{ id: '1' }]),
+      }));
+
       const mockQuery = { key: 'test', value: 'test' };
       const result = await repo.search(mockQuery);
       expect(result).toEqual([{ id: '1' }]);
@@ -45,7 +57,10 @@ describe('Given UsersMongoRepo repository', () => {
 
   describe('When the create method is used', () => {
     test('Then if it has an object to create, it should return the created object', async () => {
-      (UserModel.create as jest.Mock).mockResolvedValue({ email: 'test' });
+      (UserModel.create as jest.Mock).mockImplementation(() => ({
+        populate: jest.fn().mockResolvedValue({ email: 'test' }),
+      }));
+
       const result = await repo.create({ email: 'test' });
       expect(UserModel.create).toHaveBeenCalled();
       expect(result).toEqual({ email: 'test' });
@@ -58,16 +73,22 @@ describe('Given UsersMongoRepo repository', () => {
     } as Partial<UserStructure>;
 
     test('Then if the findByIdAndUpdate method resolve value to an object, it should return the object', async () => {
-      (UserModel.findByIdAndUpdate as jest.Mock).mockResolvedValue({
-        email: 'test',
-      });
+      (UserModel.findByIdAndUpdate as jest.Mock).mockImplementation(() => ({
+        populate: jest.fn().mockResolvedValue({
+          email: 'test',
+        }),
+      }));
+
       const result = await repo.update(mockUser);
       expect(UserModel.findByIdAndUpdate).toHaveBeenCalled();
       expect(result).toEqual({ email: 'test' });
     });
 
     test('Then if the findByIdAndUpdate method resolve value to null, it should throw an Error', async () => {
-      (UserModel.findByIdAndUpdate as jest.Mock).mockResolvedValue(null);
+      (UserModel.findByIdAndUpdate as jest.Mock).mockImplementation(() => ({
+        populate: jest.fn().mockResolvedValue(null),
+      }));
+
       expect(async () => repo.update(mockUser)).rejects.toThrow();
     });
   });

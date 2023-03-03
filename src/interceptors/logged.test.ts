@@ -2,6 +2,12 @@ import { NextFunction, Response } from 'express';
 import { logged, RequestPlus } from './logged';
 
 jest.mock('../helpers/auth.js');
+jest.mock('../config.js', () => ({
+  _dirname: 'test',
+  config: {
+    secret: 'test',
+  },
+}));
 
 describe('Given the Logged function', () => {
   const req = {

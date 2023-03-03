@@ -89,9 +89,9 @@ export class KnowledgesMongoRepo implements Repo<KnowledgeStructure> {
     value: unknown;
   }): Promise<KnowledgeStructure[]> {
     debug('search method');
-    const data = await KnowledgeModel.find({ [query.key]: query.value })
-      .populate('owner', { things: 0 })
-      .exec();
+    const data = await KnowledgeModel.find({
+      [query.key]: query.value,
+    }).populate('owner', { things: 0 });
     return data;
   }
 }
