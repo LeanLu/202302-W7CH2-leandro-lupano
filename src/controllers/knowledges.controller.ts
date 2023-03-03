@@ -10,10 +10,10 @@ const debug = createDebug('W7CH2:controller');
 
 export class KnowledgesController {
   constructor(
-    public repo: Repo<KnowledgeStructure>,
+    public repoKnowledges: Repo<KnowledgeStructure>,
     public repoUser: Repo<UserStructure>
   ) {
-    this.repo = repo;
+    this.repoKnowledges = repoKnowledges;
     this.repoUser = repoUser;
     debug('Controller instanced');
   }
@@ -22,7 +22,7 @@ export class KnowledgesController {
     try {
       debug('getAll method');
 
-      const data = await this.repo.query();
+      const data = await this.repoKnowledges.query();
 
       resp.json({
         results: data,
@@ -37,7 +37,7 @@ export class KnowledgesController {
       debug('get method');
 
       const idNumber = req.params.id;
-      const data = await this.repo.queryId(idNumber);
+      const data = await this.repoKnowledges.queryId(idNumber);
 
       resp.json({
         results: [data],
@@ -61,7 +61,7 @@ export class KnowledgesController {
 
       const newKnowledge = req.body;
 
-      const data = await this.repo.create(newKnowledge);
+      const data = await this.repoKnowledges.create(newKnowledge);
 
       actualUser.knowledges.push(data);
 
@@ -81,7 +81,7 @@ export class KnowledgesController {
 
       req.body.id = req.params.id ? req.params.id : req.body.id;
 
-      const data = await this.repo.update(req.body);
+      const data = await this.repoKnowledges.update(req.body);
 
       resp.json({
         results: [data],
@@ -96,7 +96,7 @@ export class KnowledgesController {
       debug('delete method');
 
       const idNumber = req.params.id;
-      await this.repo.destroy(idNumber);
+      await this.repoKnowledges.destroy(idNumber);
 
       resp.json({
         results: [],

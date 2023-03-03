@@ -8,9 +8,23 @@ import { Auth, TokenPayload } from '../helpers/auth.js';
 const debug = createDebug('W7CH2:users-controller');
 
 export class UsersController {
-  constructor(public repo: Repo<UserStructure>) {
-    this.repo = repo;
+  constructor(public repoUser: Repo<UserStructure>) {
+    this.repoUser = repoUser;
     debug('Controller instanced');
+  }
+
+  async getAll(_req: Request, resp: Response, next: NextFunction) {
+    try {
+      debug('getAll method');
+
+      const data = await this.repoUser.query();
+
+      resp.json({
+        results: data,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
 
   async register(req: Request, resp: Response, next: NextFunction) {
@@ -24,7 +38,7 @@ export class UsersController {
 
       req.body.knowledges = [];
 
-      const data = await this.repo.create(req.body);
+      const data = await this.repoUser.create(req.body);
 
       resp.status(201);
       resp.json({
@@ -42,7 +56,7 @@ export class UsersController {
       if (!req.body.email || !req.body.password)
         throw new HTTPError(401, 'Unauthorized', 'Invalid email o password');
 
-      const data = await this.repo.search({
+      const data = await this.repoUser.search({
         key: 'email',
         value: req.body.email,
       });

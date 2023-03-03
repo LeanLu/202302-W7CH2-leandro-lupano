@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { KnowledgeStructure } from '../entities/knowledge.model';
 import { Repo } from './repo.interface';
 import createDebug from 'debug';
@@ -8,7 +7,17 @@ import { HTTPError } from '../errors/errors.js';
 const debug = createDebug('W7CH2:knowledges-repo');
 
 export class KnowledgesMongoRepo implements Repo<KnowledgeStructure> {
-  constructor() {
+  private static instance: KnowledgesMongoRepo;
+
+  public static getInstance(): KnowledgesMongoRepo {
+    if (!KnowledgesMongoRepo.instance) {
+      KnowledgesMongoRepo.instance = new KnowledgesMongoRepo();
+    }
+
+    return KnowledgesMongoRepo.instance;
+  }
+
+  private constructor() {
     debug('Knowledges-Repo instanced');
   }
 
@@ -37,7 +46,9 @@ export class KnowledgesMongoRepo implements Repo<KnowledgeStructure> {
   ): Promise<KnowledgeStructure> {
     debug('create method');
 
-    const data = await KnowledgeModel.create(knowledge);
+    const data = (await KnowledgeModel.create(knowledge)).populate('owner', {
+      things: 0,
+    });
 
     return data;
   }
@@ -53,7 +64,7 @@ export class KnowledgesMongoRepo implements Repo<KnowledgeStructure> {
       {
         new: true,
       }
-    );
+    ).populate('owner', { things: 0 });
 
     if (!data) throw new HTTPError(404, 'Not found', 'ID not found in update');
 
@@ -73,10 +84,14 @@ export class KnowledgesMongoRepo implements Repo<KnowledgeStructure> {
       );
   }
 
-  async search(_query: {
+  async search(query: {
     key: string;
     value: unknown;
   }): Promise<KnowledgeStructure[]> {
-    return [];
+    debug('search method');
+    const data = await KnowledgeModel.find({ [query.key]: query.value })
+      .populate('owner', { things: 0 })
+      .exec();
+    return data;
   }
 }

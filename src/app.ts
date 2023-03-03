@@ -3,8 +3,10 @@ import morgan from 'morgan';
 import cors from 'cors';
 import { knowledgesRouter } from './routers/knowledges.router.js';
 import { usersRouter } from './routers/users.router.js';
-import createDebug from 'debug';
 import { CustomError } from './errors/errors.js';
+import path from 'path';
+import { __dirname } from './config.js';
+import createDebug from 'debug';
 
 const debug = createDebug('W7CH2:app');
 
@@ -19,17 +21,11 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(cors(corsOptions));
 
+debug(__dirname);
+app.use(express.static(path.resolve(__dirname, 'public')));
+
 app.use('/users', usersRouter);
 app.use('/knowledges', knowledgesRouter);
-
-app.get('/', (_req, resp) => {
-  resp.json({
-    info: 'Challenge 02 - Week 07',
-    endpoints: {
-      things: '/knowledges',
-    },
-  });
-});
 
 app.use(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
