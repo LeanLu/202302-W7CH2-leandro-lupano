@@ -21,9 +21,9 @@ export async function authorized(
 
     const knowledgeId = req.params.id;
 
-    const thing = await knowledgesRepo.queryId(knowledgeId);
+    const knowledge = await knowledgesRepo.queryId(knowledgeId);
 
-    if (thing.owner.id !== userId)
+    if (knowledge.owner.id !== userId)
       throw new HTTPError(
         401,
         'Not authorized',
