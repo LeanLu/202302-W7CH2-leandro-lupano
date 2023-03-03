@@ -5,7 +5,7 @@ import { knowledgesRouter } from './routers/knowledges.router.js';
 import { usersRouter } from './routers/users.router.js';
 import { CustomError } from './errors/errors.js';
 import path from 'path';
-import { __dirname } from './config.js';
+// import { __dirname } from './config.js';
 import createDebug from 'debug';
 
 const debug = createDebug('W7CH2:app');
@@ -21,8 +21,8 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(cors(corsOptions));
 
-debug({ __dirname });
-app.use(express.static(path.resolve(__dirname, 'public')));
+// debug({ __dirname });
+// app.use(express.static(path.resolve(__dirname, 'public')));
 
 app.use('/users', usersRouter);
 app.use('/knowledges', knowledgesRouter);
