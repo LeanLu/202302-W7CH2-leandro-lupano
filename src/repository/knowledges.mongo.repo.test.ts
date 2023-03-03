@@ -5,7 +5,7 @@ import { KnowledgesMongoRepo } from './knowledges.mongo.repo';
 jest.mock('./knowledges.mongo.model.js');
 
 describe('Given KnowledgesMongoRepo repository', () => {
-  const repo = new KnowledgesMongoRepo();
+  const repo = KnowledgesMongoRepo.getInstance();
 
   describe('When the repository is instanced', () => {
     test('Then, the repo should be instance of KnowledgesMongoRepo', () => {

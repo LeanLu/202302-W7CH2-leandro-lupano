@@ -1,12 +1,12 @@
 import dotenv from 'dotenv';
-import { fileURLToPath } from 'url';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
 
 export const config = {
   user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
+  password: encodeURIComponent(process.env.DB_PASSWORD as string),
   cluster: process.env.DB_CLUSTER,
   dbName: process.env.DB_NAME,
   jwtSecret: process.env.SECRET,

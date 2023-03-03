@@ -21,7 +21,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(cors(corsOptions));
 
-debug(__dirname);
+debug({ __dirname });
 app.use(express.static(path.resolve(__dirname, 'public')));
 
 app.use('/users', usersRouter);

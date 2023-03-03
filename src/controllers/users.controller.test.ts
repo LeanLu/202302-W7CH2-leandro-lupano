@@ -6,10 +6,18 @@ import { Auth } from '../helpers/auth.js';
 
 jest.mock('../helpers/auth.js');
 
+jest.mock('../config.js', () => ({
+  _dirname: 'test',
+  config: {
+    secret: 'test',
+  },
+}));
+
 describe('Given the UsersController', () => {
   const mockRepo = {
     create: jest.fn(),
     search: jest.fn(),
+    query: jest.fn(),
   } as unknown as Repo<UserStructure>;
 
   const controller = new UsersController(mockRepo);
@@ -20,6 +28,25 @@ describe('Given the UsersController', () => {
   } as unknown as Response;
 
   const next = jest.fn() as unknown as NextFunction;
+
+  describe('When getAll method is called', () => {
+    test('Then if the user information is completed, resp.json should been called ', async () => {
+      const req = {} as unknown as Request;
+
+      await controller.getAll(req, resp, next);
+
+      expect(mockRepo.query).toHaveBeenCalled();
+      expect(resp.json).toHaveBeenCalled();
+    });
+
+    test('Then if the repo`s query() method throw an error, next function have been called', async () => {
+      const req = {} as unknown as Request;
+
+      (mockRepo.query as jest.Mock).mockRejectedValue('Error');
+      await controller.getAll(req, resp, next);
+      expect(next).toHaveBeenCalled();
+    });
+  });
 
   describe('When Register method is called', () => {
     test('Then if the user information is completed, it should return the resp.satus and resp.json', async () => {
