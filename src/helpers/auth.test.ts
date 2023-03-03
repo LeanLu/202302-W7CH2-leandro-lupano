@@ -1,24 +1,53 @@
 import { Auth, TokenPayload } from './auth';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 
 jest.mock('jsonwebtoken');
 jest.mock('bcryptjs');
-
-jwt.sign = jest.fn();
+jest.mock('../config');
 
 describe('Given the Auth class', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   const payloadMock = {
     id: '1',
     email: 'test',
     role: 'test',
-  } as TokenPayload;
+  } as unknown as TokenPayload;
 
-  describe('When the Auth`s methods are called', () => {
-    test('Then, if createJWT method is called, it should return the jwt.sign mock value ', () => {
-      (jwt.sign as jest.Mock).mockResolvedValue('test');
+  describe('When the createJWT method is called', () => {
+    test('Then, if received a payloadMock, it should have been called', () => {
+      Auth.createJWT(payloadMock);
+      expect(jwt.sign).toHaveBeenCalled();
+    });
+  });
 
-      const result = Auth.createJWT(payloadMock);
-      expect(result).toBeDefined();
+  describe('When the verifyJWT method is called', () => {
+    test('Then, if jwt.verify return a string, it should throw an error', () => {
+      (jwt.verify as jest.Mock).mockReturnValue('string');
+      expect(() => Auth.verifyJWT('test')).toThrow();
+    });
+
+    test('Then, if jwt.verify return a jwt.JwtPayload, jwt.verify should have been called', () => {
+      (jwt.verify as jest.Mock).mockReturnValue(payloadMock);
+      Auth.verifyJWT('test');
+      expect(jwt.verify).toHaveBeenCalled();
+    });
+  });
+
+  describe('When the hash method is called', () => {
+    test('Then, it should return the mock value of bcrypt.hash have been called', () => {
+      Auth.hash('test');
+      expect(bcrypt.hash).toHaveBeenCalled();
+    });
+  });
+
+  describe('When the compare method is called', () => {
+    test('Then, it should return the mock value of bcrypt.compare and have been called', () => {
+      Auth.compare('test', 'testHash');
+      expect(bcrypt.compare).toHaveBeenCalled();
     });
   });
 });

@@ -13,24 +13,24 @@ describe('Given the Logged function', () => {
   const next = jest.fn() as unknown as NextFunction;
 
   describe('When the function is called', () => {
-    test('Then if req.get return undefined, it should be catch and call next function', async () => {
-      (req.get as jest.Mock).mockResolvedValue('');
+    test('Then if req.get return undefined, it should be catch and call next function', () => {
+      (req.get as jest.Mock).mockReturnValue('');
 
-      await logged(req, resp, next);
+      logged(req, resp, next);
       expect(next).toHaveBeenCalled();
     });
 
-    test('Then if req.get return string that does not start with Bearer, it should be catch and call next function', async () => {
-      (req.get as jest.Mock).mockResolvedValue('Test');
+    test('Then if req.get return string that does not start with Bearer, it should be catch and call next function', () => {
+      (req.get as jest.Mock).mockReturnValue('Test');
 
-      await logged(req, resp, next);
+      logged(req, resp, next);
       expect(next).toHaveBeenCalled();
     });
 
-    test('Then if the header Authorization is Ok, it should call next function', async () => {
-      (req.get as jest.Mock).mockResolvedValue('Bearer Test');
+    test('Then if the header Authorization is Ok, it should call next function', () => {
+      (req.get as jest.Mock).mockReturnValue('Bearer Test');
 
-      await logged(req, resp, next);
+      logged(req, resp, next);
       expect(next).toHaveBeenCalled();
     });
   });
