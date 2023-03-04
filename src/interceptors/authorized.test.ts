@@ -19,6 +19,15 @@ describe('Given the Authorized function', () => {
     queryId: jest.fn(),
   } as unknown as KnowledgesMongoRepo;
 
+  (mockKnowledgeRepo.queryId as jest.Mock).mockResolvedValue({
+    owner: { id: '1' },
+  });
+
+  const req = {
+    info: { id: '2' },
+    params: { id: '2' },
+  } as unknown as RequestPlus;
+
   describe('When the function is called', () => {
     test('Then if req.info return undefined, it should be catch and call next function', async () => {
       const req = {
@@ -30,15 +39,6 @@ describe('Given the Authorized function', () => {
     });
 
     test('Then if req.info.id is not equal to the return of repo.queryId, it should be catch and call next function', async () => {
-      const req = {
-        info: { id: '2' },
-        params: { id: '2' },
-      } as unknown as RequestPlus;
-
-      (mockKnowledgeRepo.queryId as jest.Mock).mockResolvedValue({
-        owner: { id: '1' },
-      });
-
       await authorized(req, resp, next, mockKnowledgeRepo);
       expect(next).toHaveBeenCalled();
     });
@@ -48,10 +48,6 @@ describe('Given the Authorized function', () => {
         info: { id: '1' },
         params: { id: '1' },
       } as unknown as RequestPlus;
-
-      (mockKnowledgeRepo.queryId as jest.Mock).mockResolvedValue({
-        owner: { id: '1' },
-      });
 
       await authorized(req, resp, next, mockKnowledgeRepo);
       expect(next).toHaveBeenCalled();
