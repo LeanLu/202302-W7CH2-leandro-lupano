@@ -7,31 +7,49 @@ import createDebug from 'debug';
 const debug = createDebug('W7CH2:users-repo');
 
 export class UsersMongoRepo implements Repo<UserStructure> {
-  constructor() {
+  private static instance: UsersMongoRepo;
+
+  public static getInstance(): UsersMongoRepo {
+    if (!UsersMongoRepo.instance) {
+      UsersMongoRepo.instance = new UsersMongoRepo();
+    }
+
+    return UsersMongoRepo.instance;
+  }
+
+  private constructor() {
     debug('Users-Repo instanced');
   }
 
   async query(): Promise<UserStructure[]> {
     debug('query method');
-    return [];
+    const data = await UserModel.find().populate('knowledges', { owner: 0 });
+    return data;
   }
 
   async queryId(id: string): Promise<UserStructure> {
     debug('queryID method');
-    const data = await UserModel.findById(id);
+    const data = await UserModel.findById(id).populate('knowledges', {
+      owner: 0,
+    });
     if (!data) throw new HTTPError(404, 'Not found', 'ID not found in queryID');
     return data;
   }
 
   async search(query: { key: string; value: unknown }) {
     debug('search method');
-    const data = await UserModel.find({ [query.key]: query.value });
+    const data = await UserModel.find({ [query.key]: query.value }).populate(
+      'knowledges',
+      { owner: 0 }
+    );
     return data;
   }
 
   async create(info: Partial<UserStructure>): Promise<UserStructure> {
     debug('create method');
-    const data = await UserModel.create(info);
+    const data = (await UserModel.create(info)).populate('knowledges', {
+      owner: 0,
+    });
     return data;
   }
 
@@ -39,7 +57,7 @@ export class UsersMongoRepo implements Repo<UserStructure> {
     debug('update method');
     const data = await UserModel.findByIdAndUpdate(info.id, info, {
       new: true,
-    });
+    }).populate('knowledges', { owner: 0 });
     if (!data) throw new HTTPError(404, 'Not found', 'ID not found in update');
     return data;
   }

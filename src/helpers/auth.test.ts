@@ -4,7 +4,12 @@ import bcrypt from 'bcryptjs';
 
 jest.mock('jsonwebtoken');
 jest.mock('bcryptjs');
-jest.mock('../config');
+jest.mock('../config.js', () => ({
+  _dirname: 'test',
+  config: {
+    secret: 'test',
+  },
+}));
 
 describe('Given the Auth class', () => {
   afterEach(() => {

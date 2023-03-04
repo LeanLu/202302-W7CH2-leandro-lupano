@@ -7,26 +7,26 @@ import { logged } from '../interceptors/logged.js';
 
 export const knowledgesRouter = router();
 
-const repo = new KnowledgesMongoRepo();
-const repoUser = new UsersMongoRepo();
-const controller = new KnowledgesController(repo, repoUser);
+const repoKnowledge = KnowledgesMongoRepo.getInstance();
+const repoUser = UsersMongoRepo.getInstance();
+const controller = new KnowledgesController(repoKnowledge, repoUser);
 
-knowledgesRouter.get('/', logged, controller.getAll.bind(controller));
+knowledgesRouter.get('/', controller.getAll.bind(controller));
 
-knowledgesRouter.get('/:id', logged, controller.get.bind(controller));
+knowledgesRouter.get('/:id', controller.get.bind(controller));
 
 knowledgesRouter.post('/', logged, controller.post.bind(controller));
 
 knowledgesRouter.patch(
   '/:id',
   logged,
-  authorized,
+  (req, resp, next) => authorized(req, resp, next, repoKnowledge),
   controller.patch.bind(controller)
 );
 
 knowledgesRouter.delete(
   '/:id',
   logged,
-  authorized,
+  (req, resp, next) => authorized(req, resp, next, repoKnowledge),
   controller.delete.bind(controller)
 );
