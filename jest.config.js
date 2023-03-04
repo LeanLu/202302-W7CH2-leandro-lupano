@@ -12,5 +12,6 @@ export default {
     'db',
     'users.mongo.model.ts',
     'knowledges.mongo.model.ts',
+    'config.ts'
   ],
 };
